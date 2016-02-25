@@ -1,16 +1,13 @@
 object P09 {
   def pack(list: List[Symbol]): List[List[Symbol]] = {
     list match {
-      case x :: xs => merge(List(x), xs)
-      case _ => List()
-    }
-  }
-
-  def merge(matchingList: List[Symbol], list: List[Symbol]): List[List[Symbol]] = {
-    list match {
-      case x :: xs if matchingList.head == x => merge(x :: matchingList, xs)
-      case x :: xs if matchingList.head != x => matchingList :: merge(List(x), xs)
-      case List() => List(matchingList)
+      case x :: y :: ys if x != y => List(x) :: pack(y :: ys)
+      case x :: y :: ys if x == y =>
+        pack(y :: ys) match {
+          case a :: as => (x :: a) :: as
+          case _ => List()
+        }
+      case _ => List(list)
     }
   }
 
